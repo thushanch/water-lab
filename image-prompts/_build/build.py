@@ -186,6 +186,8 @@ idx.append(f"""# Water Lab image prompt library
 
 {total} ready-to-paste ChatGPT image prompts, one Markdown file per image. Each file has the prompt, where the image goes, the file name to save it as, alt text, a caption, and (for diagrams) the labels to overlay afterwards.
 
+Want everything on one page? Open **[ALL_PROMPTS.md](ALL_PROMPTS.md)**.
+
 Read **[STYLE_GUIDE.md](STYLE_GUIDE.md)** once before you start. It explains the five image families, the palette, why the images are text-free, and how to keep a consistent look across {total} generations.
 
 ## What is in here
@@ -218,3 +220,55 @@ for n, id_, name, fam, fn, rel in index_rows:
 idx.append("")
 write(os.path.join(OUT, 'README.md'), "\n".join(idx))
 print(count, total)
+
+# ---------------------------------------------------------------- combined document
+def strip_page(md):
+    md = md.split("\n## If the first result is off")[0].rstrip()
+    md = md.replace("Paste everything in the box into ChatGPT as one message.\n\n", "")
+    md = md.replace("AI image tools still garble text, so the picture stays text-free and these go on top as real, selectable, translatable text:\n\n", "")
+    out = []
+    for line in md.split("\n"):
+        if line.startswith("## "): line = "#### " + line[3:]
+        elif line.startswith("# "): line = "### " + line[2:]
+        out.append(line)
+    return "\n".join(out)
+
+doc = [f"""# Water Lab image prompts
+
+All {total} ChatGPT image prompts in one document. Copy the text in each grey box into ChatGPT as one message, then save the image under the name given.
+
+## Before you start
+
+- **Images carry no text.** Every prompt forbids letters and numbers, because image models still misspell them. Diagram labels go on top in HTML; each diagram lists them.
+- **One ChatGPT chat per family** (A, B, C, D, E). After the first good image in a family, attach it to later requests with: *"Match the exact style, palette and line weight of this image."*
+- **Order:** site and covers first, then concept cutaways (B) for the popular sims, then traps (C), then field scenes (A).
+- **Check the physics** before publishing: still water is level, grade lines fall in the flow direction, a jump goes shallow to deep, water dips over a hump in slow flow. The full list is in STYLE_GUIDE.md.
+- **Export:** WebP, 1200 px wide, quality about 78, into an `img/` folder next to `water-lab.html`.
+
+## Quick fixes
+
+| Problem | Reply to ChatGPT |
+|---|---|
+| Text or numbers crept in | *Same image, but remove every letter, number and label.* |
+| Water turned teal | *Make all water a clear blue to blue-grey, no green or teal tint.* |
+| Soil turned brown | *Make all soil and earth a muted olive-grey.* |
+| Style drifted | Attach your best earlier image: *Match the exact style, palette and line weight of this image.* |
+
+## Families
+
+| Family | What it is | Count |
+|---|---|---:|
+| A · In the field | Realistic scene of where the topic shows up | {count['A']} |
+| B · Concept cutaway | Textbook cutaway of the mechanism | {count['B']} |
+| C · Common trap | Assumption vs reality, two panels | {count['C']} |
+| D · Module cover | Banner per topic | {count['D']} |
+| E · Site | Home, social card, About, 404, onboarding | {count['E']} |
+"""]
+cur = None
+for n, id_, name, fam, fn, rel in index_rows:
+    if n != cur:
+        cur = n
+        doc.append("\n---\n\n## " + ('Site images' if n == '00' else f"{n} · {MOD[n][1]}") + "\n")
+    with open(os.path.join(OUT, rel)) as f:
+        doc.append(strip_page(f.read()) + "\n")
+write(os.path.join(OUT, 'ALL_PROMPTS.md'), "\n".join(doc))

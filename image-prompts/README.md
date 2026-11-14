@@ -2,6 +2,8 @@
 
 122 ready-to-paste ChatGPT image prompts, one Markdown file per image. Each file has the prompt, where the image goes, the file name to save it as, alt text, a caption, and (for diagrams) the labels to overlay afterwards.
 
+Want everything on one page? Open **[ALL_PROMPTS.md](ALL_PROMPTS.md)**.
+
 Read **[STYLE_GUIDE.md](STYLE_GUIDE.md)** once before you start. It explains the five image families, the palette, why the images are text-free, and how to keep a consistent look across 122 generations.
 
 ## What is in here
