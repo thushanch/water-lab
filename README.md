@@ -13,7 +13,12 @@ Curious LK Project, and a companion suite to
 
 There is nothing to install and nothing to build. Open `water-lab.html` in any
 browser, online or off. The whole suite is one self contained HTML file of
-about 590 kB holding every simulator, its theory text and its styling.
+about 630 kB holding every simulator, its theory text and its styling.
+
+The pictures live separately in [`img/`](img/) (about 10 MB, loaded lazily).
+They are optional: copy `water-lab.html` on its own and every simulator still
+works, the pictures simply do not appear. Copy the `img/` folder beside it to
+get them back.
 
 ```bash
 git clone https://github.com/thushanch/water-lab.git
@@ -53,12 +58,16 @@ Two files matter:
 - **[`WATER_LAB_V2_MASTER_PLAN.md`](WATER_LAB_V2_MASTER_PLAN.md)** — the
   authority. Architecture, the v2 design system, the pre-built engine APIs and
   every work item in the order it must land. Read it before writing any code.
+- **[`image-prompts/`](image-prompts/)** and **[`img/`](img/)** — the picture
+  prompts and the pictures. After adding or replacing an image, run
+  `python3 image-prompts/_build/inject_manifest.py`.
+- **[`ANIMATION_UPGRADES.md`](ANIMATION_UPGRADES.md)** — proposed animation work.
 
 Syntax check after every session, because browser APIs will not run under Node
 but parsing still catches typos:
 
 ```bash
-awk '/<script>/{f=1;next}/<\/script>/{f=0}f' water-lab.html | tail -n +2 > /tmp/app.js
+awk '/<script>/{f=1;next}/<\/script>/{f=0}f' water-lab.html > /tmp/app.js
 node --check /tmp/app.js
 ```
 

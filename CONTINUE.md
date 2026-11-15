@@ -60,7 +60,7 @@ Browser APIs will not run under Node, but parsing catches typos, so syntax check
 after **every** session:
 
 ```bash
-awk '/<script>/{f=1;next}/<\/script>/{f=0}f' water-lab.html | tail -n +2 > /tmp/app.js
+awk '/<script>/{f=1;next}/<\/script>/{f=0}f' water-lab.html > /tmp/app.js
 node --check /tmp/app.js
 ```
 

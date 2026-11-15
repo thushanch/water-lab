@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Water Lab by Thushan</title>
 <meta name="description" content="Interactive hydraulics and hydrology simulators for post-A/L engineering students.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Water Lab">
+<meta property="og:title" content="Water Lab by Thushan">
+<meta property="og:description" content="Interactive hydraulics and hydrology simulators for post-A/L engineering students.">
+<meta property="og:url" content="https://thushanch.github.io/water-lab/">
+<meta property="og:image" content="https://thushanch.github.io/water-lab/img/site-social-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Water Lab: a cutaway illustration of a hillslope, pipe and river on a deep blue background.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://thushanch.github.io/water-lab/img/site-social-card.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 105'%3E%3Cpath d='M10 68 L33 20 L45 42 L62 10 L92 68 Z' fill='%2314416B'/%3E%3Cpath d='M33 20 L26 41 L30 37 L33 43 L37 37 L41 41 Z' fill='%23F6F7F4'/%3E%3Cpath d='M8 82 Q22 74 36 82 T64 82 T90 82' fill='none' stroke='%231E78B0' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='M8 96 Q22 88 36 96 T64 96 T90 96' fill='none' stroke='%239FC4E6' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -418,6 +429,55 @@ footer.site .foot-nav span:hover{text-decoration:underline}
 .canvas-panel{border-radius:16px}
 .card{border-radius:13px}
 .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* ---------- pictures (all optional: every figure removes itself if img/ is missing) ---------- */
+.wl-fig{margin:0}
+.wl-fig img{display:block;width:100%;height:auto;border-radius:12px;background:#e9eef2}
+.wl-fig figcaption{font-size:.82rem;color:#5b6870;line-height:1.55;margin-top:8px;max-width:72ch}
+.wl-banner{margin:16px 0 20px}
+.wl-banner img{aspect-ratio:3/1;object-fit:cover;object-position:center 55%;border:1px solid var(--contour)}
+@media(max-width:600px){.wl-banner img{aspect-ratio:2/1}}
+.wl-pics{display:grid;gap:18px;margin-top:26px}
+.wl-pics.two{grid-template-columns:1fr 1fr}
+@media(max-width:860px){.wl-pics.two{grid-template-columns:1fr}}
+.wl-pic{background:#fff;border:1px solid #e6e8e3;border-radius:14px;padding:16px 16px 14px;min-width:0}
+.wl-pic h4{font-family:var(--font-head);font-weight:600;font-size:.95rem;color:var(--ocean);margin:0 0 10px}
+.wl-pic img{border:1px solid #eef0ec}
+.wl-key{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:10px 0 0}
+.wl-key li{font-size:.74rem;color:var(--ocean);background:#eef4f9;border-radius:999px;padding:3px 9px;line-height:1.35}
+.wl-lr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.wl-lr span{font-size:.76rem;line-height:1.4;padding:6px 9px;border-radius:8px}
+.wl-lr .l{background:#fbeeec;color:#9b3424}
+.wl-lr .r{background:#e9f4ee;color:#2a6b4b}
+.wl-cover{margin:2px 0 22px}
+.wl-cover img{aspect-ratio:3/1;object-fit:cover;border:1px solid var(--contour)}
+.wl-apps{margin:6px 0 18px}
+.wl-apps img{aspect-ratio:4/1;object-fit:cover;background:none}
+@media(max-width:600px){.wl-cover img{aspect-ratio:2.2/1}.wl-apps img{aspect-ratio:2.6/1}}
+.wl-about{margin:18px 0 6px}
+.wl-about img{aspect-ratio:2.6/1;object-fit:cover;object-position:62% 50%;border:1px solid var(--contour)}
+.wl-howto{margin:8px 0 10px}
+.wl-howto img{border:1px solid var(--contour);background:#fff}
+ol.howto{margin:12px 0 4px;padding-left:22px;font-size:.9rem;color:#3c4a52;line-height:1.65}
+ol.howto b{color:var(--ocean)}
+.pop-card.has-img{flex-wrap:wrap;padding-top:0}
+.pop-card .thumb{display:block;flex:0 0 calc(100% + 29px);width:calc(100% + 29px);margin:0 -15px 2px -14px;
+  aspect-ratio:16/9;height:auto;object-fit:cover;background:#e9eef2}
+.pop-card.has-img .rank{background:rgba(255,255,255,.9);border-radius:999px;padding:2px 8px;color:var(--ocean)}
+.cat-tile .cthumb{width:66px;height:48px;border-radius:9px;object-fit:cover;flex:none;background:#14416B}
+.hero.has-bg{position:relative;isolation:isolate}
+.hero.has-bg::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:url(img/site-hero-backdrop.webp) center 70%/cover no-repeat;opacity:.2;
+  -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent)}
+.disclaimer-strip{position:relative;isolation:isolate;overflow:hidden}
+.disclaimer-strip::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:url(img/site-study-aid.webp) center/cover no-repeat;opacity:.07}
+.nf{text-align:center;padding:30px 0 60px}
+.nf .wl-fig{max-width:300px;margin:0 auto 10px}
+.nf .wl-fig img{background:none}
+.nf h1{font-family:var(--font-head);font-weight:600;color:var(--ocean);font-size:clamp(1.5rem,3.6vw,2rem);margin:6px 0 8px}
+.nf p{color:#4a5860;max-width:52ch;margin:0 auto}
+.nf .entry{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
 
 /* ---------- hero art animation (CSS only, so reduced-motion disables it) ---------- */
 .ha-sun{transform-origin:118px 78px;animation:haSun 9s ease-in-out infinite}
@@ -10483,6 +10543,63 @@ const SIMS={
 /* ============================================================
    FULL CATALOGUE  (50 sims, first five live)
    ============================================================ */
+/* IMGS:BEGIN generated by image-prompts/_build/inject_manifest.py, do not hand-edit */
+const IMGS={"sim":{"egl":{"field":{"alt":"A blue steel water main running down a terraced tea-estate hillside from a reservoir at the top to a village in the valley.","cap":"Every gravity main is a story told in head: it starts with height and spends it on friction all the way down."},"trap":{"alt":"Two panels: a pipe over a hill drawn empty on the left, and flowing under suction with bubbles at the crown on the right.","cap":"A pipe above the HGL still flows. It just runs under suction, which invites air, cavitation and dirty groundwater in.","labels":["What students assume, flow stops","Flow continues under suction, air comes out of solution, the valve matters"]}},"venturi":{"field":{"alt":"A blue steel pipeline in a treatment plant gallery narrowing into a venturi meter with instrument tubing to a pressure transmitter.","cap":"A venturi meter has no moving parts. It measures flow by reading how much pressure the water spends to speed up."},"concept":{"alt":"Cutaway of a venturi meter with two pressure tubes, and an inset of a Pitot tube with a manometer.","cap":"Faster at the throat means lower pressure there. That pressure drop is the flow measurement.","labels":["Inlet","Throat","Diverging cone","Head difference between the tubes","Stagnation point on the Pitot nose","Manometer deflection"]}},"thrust":{"field":{"alt":"A ductile iron pipe bend at the bottom of a trench with a freshly cast concrete thrust block behind it.","cap":"Water changing direction pushes on the bend. The block hands that push to the soil."},"concept":{"alt":"Plan view of a buried pipe bend with force arrows combining into a resultant that pushes into a concrete block and the soil behind it.","cap":"The block area is the thrust divided by what the soil can safely bear.","labels":["Pressure force on each leg","Resultant thrust","Bearing area of the block","Passive soil resistance zone"]}},"jet":{"field":{"alt":"A Pelton wheel inside a small hydro power house being struck by a water jet that splits into two sprays.","cap":"A Pelton bucket turns the jet almost all the way back. Reversing momentum is how it takes nearly all the force."},"concept":{"alt":"A water jet striking a curved vane on a wheeled cart, with velocity and force arrows and a control volume around the vane.","cap":"Force equals the rate of momentum change. Draw the box, count what crosses it.","labels":["Incoming jet velocity","Outgoing jet velocity","Deflection angle","Force on the vane","Control volume","Cart velocity"]}},"siphon":{"field":{"alt":"A farmer using a flexible pipe to siphon water over an earth tank bund into paddy fields.","cap":"A siphon lifts water over the bund with no pump, but only so high before the column breaks."},"concept":{"alt":"Cutaway of a siphon arching over a hill between two tanks, with the lowest pressure and a few vapour bubbles at the crown.","cap":"The crown is where the siphon is most at risk. Pressure there falls with every metre of lift and every bit of speed.","labels":["Upper tank level","Crown (lowest pressure)","Lift height","Outlet level","Total head driving the flow","Vapour forms here"]},"trap":{"alt":"Two panels: a very tall siphon drawn flowing, and the same siphon with its water column broken by a vapour gap at the top.","cap":"Air pressure can only push water up about 10 m, and less in practice. Ask a siphon to lift more and it simply quits.","labels":["What people assume, any height works","Above roughly 7 to 8 m of lift, the column breaks"]}},"pipeflow":{"field":{"alt":"A hillside town at dusk with its streets shown semi-transparent, revealing a looped blue water network fed from a hilltop reservoir.","cap":"Under every town is a network where each loop must balance and each junction must add up."},"concept":{"alt":"Isometric diagram of a looped pipe network fed by a reservoir, with arrows showing flow direction and junction demands.","cap":"Two rules solve any network: flow in equals flow out at every node, and head loss around every loop adds to zero.","labels":["Reservoir head","Junction demands","Pipe flows","Loop 1 and loop 2","Head loss around each loop sums to zero"]}},"serpar":{"field":{"alt":"A new water pipeline being laid in a trench parallel to an existing one along a rural road.","cap":"Duplicating a main is a parallel pipe problem. The gain is real, and smaller than most people guess."},"concept":{"alt":"Top: three pipes in series with head stepping down. Bottom: two pipes in parallel sharing one head drop.","cap":"In series the flow is shared and losses add. In parallel the head loss is shared and flows add.","labels":["Series: same flow, losses add","Parallel: same head loss, flows add","The thin pipe dominates"]},"trap":{"alt":"Two panels comparing one pipe and two parallel pipes: drawn as double the flow on the left, only a modest increase on the right.","cap":"Add a second pipe and friction falls, but the pump and the static lift do not care. Flow rises, it does not double.","labels":["Two pipes, double the flow","More flow, but well short of double"]}},"moody":{"field":{"alt":"A pipe friction test rig in a hydraulics lab with pipes of different sizes and a manometer board.","cap":"Every curve on the Moody chart was once a rig like this, run for hours and read by hand."},"concept":{"alt":"Pipe interior split into laminar flow with smooth layers and turbulent flow with eddies, plus a close-up of wall roughness.","cap":"Whether roughness matters depends on whether the bumps poke through the thin calm layer at the wall.","labels":["Laminar: friction set by viscosity","Turbulent: eddies and wall roughness","Viscous sublayer","Roughness height"]}},"hammer":{"field":{"alt":"A steel penstock running down a forested mountainside to a power station, with a surge tower on the ridge above.","cap":"The surge tower exists for one moment: when the turbine valve shuts and the water in the penstock has nowhere to go."},"concept":{"alt":"Four-step storyboard of a pressure wave running from a closed valve back to a reservoir and returning as low pressure.","cap":"Close a valve suddenly and a pressure wave runs the length of the pipe, reflects, and comes back inverted.","labels":["Valve closes","Wave travels at speed a","Reflection at the reservoir","Low pressure returns","One cycle takes 4L/a"]},"trap":{"alt":"Two panels: a valve slammed shut causing a tall pressure spike, and a valve closed slowly causing only a gentle rise.","cap":"Close faster than one wave round trip and you get the full pressure rise, whatever the valve looks like.","labels":["Closed faster than 2L/a, full Joukowsky rise","Closed over many wave periods, small rise"]}},"pump":{"field":{"alt":"Three blue centrifugal pumps with motors in a row inside a pumping station.","cap":"A pump does not choose its flow. It runs wherever its curve meets the pipeline's."},"concept":{"alt":"Cutaway of a centrifugal pump beside a chart where a falling pump curve crosses a rising system curve.","cap":"Where the two curves cross is the only place the pump and the pipes agree.","labels":["Impeller eye","Volute","Delivery","Pump curve","System curve","Operating point","Static lift"]},"trap":{"alt":"Two panels: an oversized pump imagined delivering a huge flow, and in reality throttled by a nearly closed valve.","cap":"Buying a bigger pump buys a bigger electricity bill. The pipeline still sets the flow.","labels":["Bigger pump, more water","The system curve decides; an oversized pump gets throttled and wastes energy"]}},"pumpbuild":{"field":{"alt":"A stormwater pumping station beside a high canal in Colombo during monsoon rain, discharging over the embankment.","cap":"When the canal is high, gravity drainage stops and the duty pumps take over."},"concept":{"alt":"Cutaway of a wet-well pump station with three pumps, float switches at different levels and a common discharge header.","cap":"Float levels decide which pumps run. The standby only wakes when something fails.","labels":["Inlet, duty pump, assist pump, standby pump, float levels: stop, start, assist, alarm, common discharge header"]}},"npsh":{"field":{"alt":"A bronze pump impeller with its vane edges pitted and cratered by cavitation damage.","cap":"Cavitation damage looks like the metal was eaten. In a sense, it was: by millions of collapsing bubbles."},"concept":{"alt":"Cutaway of a pump lifting water from a sump, with vapour bubbles forming at the impeller eye and collapsing on the vane.","cap":"NPSH available is what the suction side offers. NPSH required is what the impeller demands. Keep a margin.","labels":["Sump level","Suction lift","Friction in the suction pipe","Lowest pressure at the eye","Bubbles form","Bubbles collapse"]},"trap":{"alt":"Two panels: a pump that looks fine from outside, and its cutaway showing cavitation bubbles and pitting inside.","cap":"A cavitating pump often keeps running for months. The damage is quiet until it is expensive.","labels":["It runs, so it is fine","Inside, cavitation is eating the impeller"]}},"impeller":{"field":{"alt":"Three impellers on a workbench: a radial centrifugal impeller, a mixed-flow impeller and an axial propeller.","cap":"High head and low flow wants a radial impeller. Low head and huge flow wants a propeller. Specific speed tells you which."},"concept":{"alt":"Five impeller cross sections morphing from radial to mixed flow to axial.","cap":"Specific speed is one number that predicts the shape of the impeller before anyone draws it.","labels":["Radial","Mixed flow","Axial","Low specific speed to high specific speed","Flow path through each"]}},"idf":{"field":{"alt":"A heavy monsoon downpour over a Colombo street with a rain gauge standing in the foreground.","cap":"Short storms are fierce, long storms are gentle. An IDF curve puts a number on how fierce, for how long, and how rare."},"concept":{"alt":"Five rain clouds from short and intense to long and gentle, with bars showing intensity falling as duration grows.","cap":"The same rare storm is fierce over ten minutes and gentle over a day. The curve is that trade-off.","labels":["Intensity","Duration","The falling IDF curve","Shorter means fiercer","Rarer storms sit on higher curves"]}},"thiessen":{"field":{"alt":"An elevated view over a river basin with rain gauges scattered across it and a shower falling over one part.","cap":"Each gauge sees one point. The question is how much rain fell on everything in between."},"concept":{"alt":"Map of a river basin with seven gauges, divided into polygon cells on the left and smooth rainfall contours on the right.","cap":"Polygons give each gauge the area nearest to it. Isohyets let the rainfall field bend between gauges.","labels":["Gauges","Thiessen polygons (left)","Isohyets (right)","Basin boundary","Heavier rain darker"]},"trap":{"alt":"Two panels: rain gauges all in a valley reporting light rain, while heavy rain falls on the ungauged ridges.","cap":"Gauges are put where people live, not where rain falls hardest. Every averaging method inherits that bias.","labels":["What the gauges report","The orographic rain they never saw"]}},"designstorm":{"field":{"alt":"A dark monsoon storm front with a rain curtain advancing across paddy fields.","cap":"Two storms can drop the same depth. When the heaviest part arrives decides the flood."},"concept":{"alt":"Four catchments with rain bar charts of equal total but different timing, each producing a differently shaped flood.","cap":"Rain that arrives late falls on wet ground. That is why back-loaded storms make bigger floods.","labels":["Front loaded","Centre loaded","Back loaded","Uniform","Same depth","Different peaks"]}},"infil":{"field":{"alt":"Heavy rain on a field edge with puddles forming and thin sheets of runoff starting to flow across a track.","cap":"Runoff starts the moment the rain falls faster than the soil can take it in."},"concept":{"alt":"Cutaway soil column with rain on top, a wet zone and wetting front moving down, and runoff from a surface pond.","cap":"Dry soil drinks fast, then slows. Rain that exceeds the current rate becomes runoff.","labels":["Rain","Ponding","Runoff","Wet zone","Wetting front","Dry soil","Infiltration capacity falling with time"]}},"rational":{"field":{"alt":"An aerial view of a wet suburb with drains converging to a culvert under a main road.","cap":"Every drain in a town like this was sized with Q = CiA, whether the designer knew the name or not."},"concept":{"alt":"Top-down catchment with curved travel-time bands and the longest flow path from the farthest point to the outlet.","cap":"The peak comes when water from the farthest point finally reaches the outlet: the time of concentration.","labels":["Outlet","Isochrones","The longest flow path","Time of concentration","Runoff coefficient from land cover"]},"trap":{"alt":"Two panels: a whole catchment drawn contributing at once, and only the band near the outlet contributing early in the storm.","cap":"Choose a storm shorter than t_c and part of the catchment never gets to join in.","labels":["The whole catchment from minute one","Only the area within the travel time contributes until t_c"]}},"uh":{"field":{"alt":"A staff gauge standing in a rising flood beside a small gauge house and a cableway over the river.","cap":"The unit hydrograph is read from records like this: the river's signature response to one unit of rain."},"concept":{"alt":"Four rain bars each producing a scaled, delayed copy of the same hydrograph shape, stacked into one flood hydrograph.","cap":"Each block of rain launches its own copy of the unit hydrograph. The flood is all the copies added up.","labels":["Rainfall excess blocks","One scaled and delayed unit hydrograph per block","The sum is the flood"]},"trap":{"alt":"Two panels: a big flood drawn as a scaled copy of a small one, and in reality arriving earlier and peaking sharper.","cap":"A unit hydrograph built from ordinary floods tends to be too slow for extreme ones. The bias has a known direction.","labels":["Linearity assumed","Extreme floods run faster than the UH predicts"]}},"scs":{"field":{"alt":"A landscape in rain with forest on the left, paddy fields in the middle and a town on the right.","cap":"Same rain, three surfaces, three very different amounts of runoff. The curve number is that difference in one index."},"concept":{"alt":"Rain falling on forest, grass and town, splitting into abstraction, infiltration and runoff, with runoff growing toward the town.","cap":"Nothing runs off until the initial abstraction is filled. After that, the soil and the surface share what is left.","labels":["Initial abstraction","Infiltration","Runoff","Low CN forest","Medium CN grass","High CN town"]},"trap":{"alt":"Two panels: two storms with the same daily total drawn giving the same flood, and in reality very different peaks with similar volumes.","cap":"The curve number method knows nothing about intensity. Use it for runoff volume, not for the peak.","labels":["CN gives the peak","CN gives volume only; timing sets the peak"]}},"scsuh":{"field":{"alt":"An ungauged dry-zone catchment of scrub and rock draining into a small tank, with an engineer on a track.","cap":"Most catchments were never gauged. A synthetic unit hydrograph builds their response from the map."},"concept":{"alt":"A catchment map with its longest flow path and slope beside a smooth hydrograph overlaid with an equivalent triangle.","cap":"Area, length, slope and land cover. Four numbers off a map give you a hydrograph.","labels":["Area","Longest flow path","Slope","Curve number","Lag time","Time to peak","Base time of the triangle"]}},"manning":{"field":{"alt":"A long straight lined irrigation canal flowing at uniform depth between paddy fields.","cap":"Down a long straight canal, gravity and friction strike a balance. That depth is normal depth."},"concept":{"alt":"Trapezoidal channel cross-section with velocity contours fastest near the surface centre and the wetted perimeter highlighted.","cap":"Area over wetted perimeter is the hydraulic radius. Friction lives on the perimeter.","labels":["Flow area","Wetted perimeter","Hydraulic radius","Bed slope","Roughness n","Fastest flow near the surface centre"]},"trap":{"alt":"Two panels: a clean new concrete canal, and the same canal with weeds, silt and debris that raise its roughness.","cap":"Manning's n describes the channel you will actually have, not the one in the drawings.","labels":["N is set by the lining","Weeds, silt, debris and bends raise n far above the textbook value"]}},"specific-energy":{"field":{"alt":"A glass laboratory flume with water flowing over a raised hump, the surface dipping above it.","cap":"Raise the floor and slow, deep water drops over it. That surprises almost everyone the first time."},"concept":{"alt":"Side section of a flume where water dips over a floor hump while a level energy line runs above.","cap":"With no losses, energy stays level. Raising the floor takes energy out of the depth.","labels":["Upstream depth","Hump height","Depth over the hump","Energy line stays level","Subcritical flow"]},"trap":{"alt":"Two panels: water dipping over a very tall hump, and in reality the flow choking and backing up upstream.","cap":"Every channel has a limit. Raise the hump past it and the upstream water must rise to get over.","labels":["A bigger hump just means a bigger dip","Past the critical height, the flow chokes and backs up upstream"]}},"froude":{"field":{"alt":"Left: ripples spreading in all directions on a slow stream. Right: a sharp V wake behind a stone in a fast stream.","cap":"If ripples can climb upstream, the flow is subcritical. If they are swept away in a V, it is supercritical."},"concept":{"alt":"Three overhead panels of ripple rings from a point source as flow speed rises, ending in a V-shaped wedge.","cap":"The Froude number compares how fast the water moves with how fast a wave can travel through it.","labels":["Fr < 1 subcritical","Fr = 1 critical","Fr > 1 supercritical","Wave speed versus flow speed"]},"trap":{"alt":"Two panels: signals drawn travelling upstream in a fast channel, and in reality swept downstream with a jump forming at the gate.","cap":"In supercritical flow the water upstream cannot know what lies ahead. Control comes from upstream.","labels":["Downstream changes travel up","In supercritical flow, no information goes upstream"]}},"weir":{"field":{"alt":"A sharp-crested weir in an irrigation channel with a clear sheet of water springing off its crest.","cap":"Measure the head above the crest and the weir tells you the flow. That is what a weir is for."},"concept":{"alt":"Side section of a sharp-crested weir with a curved nappe, an aerated pocket below it and a head gauge upstream.","cap":"Read the head upstream, before the surface starts to draw down, or the rating will lie to you.","labels":["Head over crest H","Measure about 4H upstream","Crest height p","Nappe","Aerated pocket","Vent","Tailwater"]}},"compound":{"field":{"alt":"A river in flood spilling out of its main channel onto wide floodplain paddy fields.","cap":"Once the river leaves its banks, two very different flows share one cross-section."},"concept":{"alt":"Cross-section of a main channel with floodplains on both sides, divided into fast and slow zones with vortices between them.","cap":"Treat the floodplain and the main channel separately, then add the flows. Lumping them together underestimates capacity.","labels":["Main channel","Left and right floodplain","Division lines","Fast and slow zones","Shear at the interface"]}},"openchannel":{"field":{"alt":"An irrigation canal stepping down through a landscape with a series of small drop structures.","cap":"Build a channel of reaches and structures, and each one sets the water surface of its neighbours."},"concept":{"alt":"Long section of a channel with a gate, two slopes and a weir, the water surface curving between them.","cap":"Controls hold the water surface; the reaches between them bend it toward normal depth.","labels":["Gate","Mild reach","Steep reach","Weir","Normal depth","Critical depth","Backwater","Drawdown","Jump"]}},"profiles":{"field":{"alt":"A stone diversion weir across a river with a long calm backwater reach extending far upstream.","cap":"A weir raises the river for kilometres upstream. That long gentle curve is a backwater profile."},"trap":{"alt":"Two panels: a dam's effect drawn as short, and in reality a backwater curve reaching a distant village and bridge.","cap":"On a mild river, a new weir can raise flood levels in a town many kilometres away.","labels":["The dam only affects its immediate surroundings","On a mild slope, backwater reaches far upstream"]}},"jump":{"field":{"alt":"A hydraulic jump erupting into white foam in the stilling basin at the foot of a dam spillway.","cap":"The stilling basin is built to make a jump. Its job is to destroy energy before it reaches the riverbed."},"concept":{"alt":"Side section of a hydraulic jump from shallow fast flow through a turbulent roller to deep slow flow.","cap":"Momentum is conserved across a jump. Energy is not, and that loss is the point.","labels":["Supercritical inflow y1","Roller","Subcritical outflow y2","Sequent depths","Energy lost in the jump"]},"trap":{"alt":"Two panels: a jump held inside a stilling basin, and the jump swept downstream onto an eroded riverbed when tailwater is low.","cap":"Tailwater holds the jump in place. Get it wrong and the jump goes looking for the riverbed.","labels":["The jump stays put","Too little tailwater and the jump sweeps out of the basin"]}},"sluice":{"field":{"alt":"A vertical-lift sluice gate raised slightly with a powerful jet of water rushing out underneath into a canal.","cap":"Under a gate, depth is traded for speed. Where that fast water slows down decides the rest."},"concept":{"alt":"Two side sections of flow under a sluice gate: a free jet with a jump downstream, and a drowned jet under high tailwater.","cap":"Free or drowned changes the discharge. The tailwater decides which one you have.","labels":["Upstream depth","Gate opening","Vena contracta","Free jump","Drowned outlet","Tailwater level"]}},"stepmethod":{"field":{"alt":"A survey team measuring a river cross-section with a levelling staff and an automatic level on the bank.","cap":"The step method marches from section to section. Every section was first a line of poles like these."},"concept":{"alt":"A river reach sliced into cross-section planes with arrows stepping upstream from one to the next.","cap":"Start where you know the depth, then balance energy one step at a time.","labels":["Known section","Next section","Step length","Water surface computed section by section","March direction"]}},"shields":{"field":{"alt":"Underwater view of a gravel stream bed with a few small grains starting to roll downstream while larger pebbles stay.","cap":"At the threshold, only some grains move, and only some of the time. Shields put a number on that moment."},"concept":{"alt":"A single grain on a stream bed with drag, lift and weight arrows and a pivot point against its neighbour.","cap":"The grain moves when drag and lift can roll it over its pivot against its own weight.","labels":["Flow","Drag","Lift","Submerged weight","Pivot point","Bed shear stress"]},"trap":{"alt":"Two panels: a deep pool drawn moving its bed, and in reality a still pool beside a shallow steep riffle where gravel moves.","cap":"It is shear stress, depth times slope, that moves grains, not depth on its own.","labels":["Deeper water moves more sediment","Shear stress depends on depth times slope; the steep riffle wins"]}},"scour":{"field":{"alt":"A bridge pier in a flooded river with water swirling around its base and a turbulent wake behind it.","cap":"The most dangerous thing a river does to a bridge happens underwater, at the foot of its piers."},"concept":{"alt":"Cutaway of a bridge pier with a horseshoe vortex wrapping around its base and a scour hole dug around it.","cap":"Flow diving down the front of the pier rolls into a horseshoe vortex and digs the hole.","labels":["Approach flow","Down flow","Horseshoe vortex","Scour hole","Wake vortices","Foundation depth"]},"trap":{"alt":"Two panels: a normal looking bed after a flood, and the cutaway revealing a refilled scour hole that undermined the foundation.","cap":"Scour holes refill as floods recede. A post-flood inspection can miss the depth that nearly took the bridge.","labels":["The bed looks fine after the flood","The hole that formed at the peak has been refilled with loose sediment"]}},"traplife":{"field":{"alt":"A reservoir at low water with a large silt delta built out where the river enters.","cap":"Every reservoir is slowly filling with soil. Trap efficiency tells you how fast."},"concept":{"alt":"Long section of a reservoir with a coarse sediment delta near the inflow and fine silt settling toward the dam.","cap":"Coarse grains drop first and build a delta. Fines travel to the dam. Some escape downstream.","labels":["Inflow with sediment","Delta (coarse)","Bottomset (fine)","Dead storage","Live storage","Sediment passing the dam"]},"trap":{"alt":"Two panels: a new full reservoir, and the same reservoir decades later with a sediment delta shrinking it.","cap":"A reservoir's capacity is a stock being drawn down. Design life is part of the design.","labels":["Storage is permanent","Sediment eats live storage year after year"]}},"montecarlo":{"field":{"alt":"A box culvert under a rural road with faint ghosted lines showing many possible flood levels across its headwall.","cap":"Every input is uncertain, so the answer is a spread of futures, not a single line."},"concept":{"alt":"Dots sampled from three input distributions flow through a model box and pile up into a histogram with a failure tail.","cap":"Sample the inputs thousands of times and count how often the design fails. That count is the risk.","labels":["Uncertain inputs","Random samples","Model","Distribution of outcomes","Design limit","Probability of failure"]}},"risk":{"field":{"alt":"An old building wall with several historical flood high-water marks painted at different heights.","cap":"Some of these marks sit only a few years apart. A 100-year flood is a probability, not a timetable."},"concept":{"alt":"A grid of 100 year-squares with a few randomly scattered flood drops, two of them in consecutive years.","cap":"Over a 100-year life, a 100-year flood has about a two in three chance of turning up at least once.","labels":["One square per year","Annual exceedance probability 1/T","Design life n","Risk of at least one exceedance"]},"trap":{"alt":"Two timelines: floods evenly spaced every 100 years, and floods randomly clustered with two in consecutive years.","cap":"The river does not keep a diary. Last year's flood does not make this year safer.","labels":["Once every 100 years","A 1 percent chance each year, in any order"]}},"freqfit":{"field":{"alt":"An archive of old river record ledgers with a paper water-level chart unrolled on a table.","cap":"A frequency curve is only as good as the record behind it, and records are short."},"concept":{"alt":"Annual flood peaks with a fitted curve that continues past the data into a widening uncertainty fan.","cap":"Inside the record, every distribution agrees. Outside it, they argue.","labels":["Observed annual maxima","Fitted distribution","Record length","Extrapolation region","Widening uncertainty"]},"trap":{"alt":"Two panels: one confident extrapolated curve to a rare flood, and the same with a wide band of disagreeing curves.","cap":"Thirty years of data cannot tell you the 1000-year flood to the nearest cubic metre.","labels":["A confident 1000-year flood from 30 years of data","The honest uncertainty"]}},"freqlab":{"field":{"alt":"A student's desk at night with a laptop showing a spreadsheet and a flood frequency chart, rain on the window.","cap":"Bring your own record. The real work is defending the fit you choose."},"concept":{"alt":"Four stage workflow from a river gauge to annual peaks, sorted ranks, and points with a fitted line.","cap":"Pick the annual maxima, rank them, give each a probability, then fit and argue.","labels":["Gauge record","Annual maximum series","Rank and plotting position","Fit on probability paper"]}},"reliability":{"field":{"alt":"An earth levee holding back a swollen river close to its crest, with a village sitting lower behind it.","cap":"A levee is designed for a chosen flood. Reliability asks how often nature exceeds the choice."},"concept":{"alt":"Earth levee section with a sideways bell curve of possible flood levels, its tail above the crest shaded red.","cap":"Overtopping probability is the area of the tail that peeks over the crest.","labels":["Distribution of flood levels","Design level","Freeboard","Crest","Probability of overtopping"]},"trap":{"alt":"Two panels: a uniformly strong levee, and the same levee failing at one low road crossing.","cap":"Systems fail where you did not look. One low spot sets the reliability of the whole line.","labels":["Strong almost everywhere means safe","A series system fails at its weakest link"]}},"catchment":{"field":{"alt":"An aerial panorama of a hill-country catchment from forested ridges through tea and villages down to a river and reservoir.","cap":"One catchment, one storm, every millimetre accounted for."},"concept":{"alt":"Cutaway hillslope showing rain, interception, evaporation, infiltration, groundwater, baseflow and overland flow to a river.","cap":"Every arrow is a flux the model tracks, and the ledger must balance.","labels":["Rain","Interception","Evapotranspiration","Infiltration","Soil store","Percolation","Groundwater","Baseflow","Overland flow","Channel flow"]},"trap":{"alt":"Two panels: a forested catchment drawn as flood-proof, and in reality still flooding under an extreme storm, though less than if cleared.","cap":"Forest buys storage, and storage fills. In the biggest storms it helps, but it cannot stop the flood.","labels":["Forests stop floods","Forests damp moderate floods; extreme storms on wet soil still flood"]}},"calib":{"field":{"alt":"A hydrologist at a river gauging station at dusk comparing two hydrograph curves on a laptop.","cap":"A model earns trust by matching the river, and by showing how many other models match it just as well."},"concept":{"alt":"A 3D performance surface with a long bright ridge instead of a single peak, and several dots along the ridge.","cap":"The best score is not a summit, it is a ridge. Many parameter sets fit almost equally well.","labels":["Parameter 1","Parameter 2","Score (NSE or KGE)","The ridge of equally good parameter sets"]},"trap":{"alt":"Two panels: one trophy-winning parameter set, and five different models all producing the same good hydrograph.","cap":"A calibrated parameter set is one plausible explanation, not the catchment's truth.","labels":["Calibration finds the true parameters","Equifinality, many different models fit equally well"]}}},"mod":{"01":{"alt":"Abstract banner of a pipeline from a reservoir with glowing energy and grade lines above it."},"02":{"alt":"Abstract banner of a glowing pipe network beneath a town with a pressure pulse travelling along one pipe."},"03":{"alt":"Abstract banner of a spinning pump impeller with water spiralling outward."},"04":{"alt":"Abstract banner of monsoon clouds and rain curtains over a landscape with faint rainfall contours."},"05":{"alt":"Abstract banner of rain on forest, paddy and town gathering into a river that becomes a hydrograph shape."},"06":{"alt":"Abstract banner of a straight canal with a weir and a V-shaped ripple wake."},"07":{"alt":"Abstract banner of water flowing over a spillway into a hydraulic jump and a calm backwater."},"08":{"alt":"Abstract banner of riverbed grains lifting, a bridge pier vortex, and a reservoir silt delta."},"09":{"alt":"Abstract banner of a river valley with ghosted possible flood levels and an uncertainty fan of dots."},"10":{"alt":"Abstract banner of a whole catchment cutaway from rain through hillslope and groundwater to a river and reservoir."}},"site":{"site-hero-backdrop":{"alt":"A soft watercolour of the water cycle across hills, a river, a reservoir and the coast."},"site-about-banner":{"alt":"A study desk by a rainy window with a notebook of channel sketches, a ruler, a calculator and a laptop."},"site-not-found":{"alt":"A paper boat at a fork in a stream beside a blank signpost."},"site-apps-header":{"alt":"A continuous strip of ten small water scenes from a pipe and a pump to a whole catchment."},"site-how-to-use":{"alt":"A stylised laptop showing a simulator with sliders, a water scene, a chart and an equation strip."},"site-study-aid":{"alt":"Layered paper-cut waves with small floating icons of a book, a pencil, a water drop and a boat."}}};
+/* IMGS:END */
+
+/* ---------- pictures: lazy, and gone without a trace if img/ is absent (offline single file) ---------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function imgEl(src,alt,cls,w,h){
+  const im=el('img',cls||null);
+  im.alt=alt||''; im.loading='lazy'; im.decoding='async';
+  im.width=w||1200; im.height=h||800; im.src=src;
+  return im;
+}
+function picFig(src,alt,cls,cap,w,h){
+  const f=el('figure','wl-fig'+(cls?' '+cls:''));
+  const im=imgEl(src,alt,null,w,h);
+  im.onerror=()=>{
+    const p=f.closest('.wl-pic'), box=p&&p.parentNode;
+    f.remove();
+    if(p&&!p.querySelector('figure')){ p.remove(); if(box&&!box.querySelector('.wl-pic')) box.remove(); }
+  };
+  f.append(im);
+  if(cap) f.append(el('figcaption',null,esc(cap)));
+  return f;
+}
+/* "How it works" and "Common trap", shown under the simulator */
+function simPictures(key){
+  const im=IMGS.sim[key];
+  if(!im||(!im.concept&&!im.trap)) return null;
+  const box=el('section','wl-pics'+(im.concept&&im.trap?' two':''));
+  if(im.concept){
+    const c=el('div','wl-pic');
+    c.append(el('h4',null,'How it works'));
+    const f=picFig('img/'+key+'-concept.webp',im.concept.alt,null,null);
+    if(im.concept.labels&&im.concept.labels.length){
+      const k=el('ul','wl-key'); k.setAttribute('aria-label','In this picture');
+      im.concept.labels.forEach(t=>k.append(el('li',null,esc(t))));
+      f.append(k);
+    }
+    f.append(el('figcaption',null,esc(im.concept.cap)));
+    c.append(f); box.append(c);
+  }
+  if(im.trap){
+    const c=el('div','wl-pic trap');
+    c.append(el('h4',null,'Common trap'));
+    const f=picFig('img/'+key+'-trap.webp',im.trap.alt,null,null);
+    const L=im.trap.labels||[];
+    if(L.length===2){
+      const row=el('div','wl-lr');
+      row.append(el('span','l',esc(L[0])), el('span','r',esc(L[1])));
+      f.prepend(row);
+    }
+    f.append(el('figcaption',null,esc(im.trap.cap)));
+    c.append(f); box.append(c);
+  }
+  return box;
+}
+
 const CATALOG=[
   {n:'01',t:'Foundations · Energy & Momentum',sims:[
     {k:'egl',name:'EGL / HGL Pipeline Explorer',d:'Energy and hydraulic grade lines along a pipeline.'},
@@ -10656,6 +10773,11 @@ function popCard(k,i){
   const b=el('div','pc-b');
   b.append(el('h3',null,m.name), el('p',null,m.d), el('span','mtag',m.t.split('·')[0].trim()));
   c.append(ic,b,el('span','rank',String(i+1).padStart(2,'0')));
+  if(IMGS.sim[k]&&IMGS.sim[k].field){
+    const t=imgEl('img/'+k+'-field.webp','','thumb');
+    t.onerror=()=>{ t.remove(); c.classList.remove('has-img'); };
+    c.classList.add('has-img'); c.prepend(t);
+  }
   c.onclick=()=>{location.hash='#/'+k;};
   return c;
 }
@@ -10664,7 +10786,7 @@ function renderHub(){
   const root=el('div');
 
   /* hero: words on the left, the whole water cycle running on the right */
-  const hero=el('section','hero');
+  const hero=el('section','hero'+(IMGS.site['site-hero-backdrop']?' has-bg':''));
   const hw=el('div','wrap');
   const hg=el('div','hero-grid');
   const hl=el('div');
@@ -10721,6 +10843,11 @@ function renderHub(){
     t.append(el('div','cn',''), cb, el('span','arw','→'));
     t.querySelector('.cn').innerHTML=svgIcon(m.sims.find(s=>s.k)?m.sims.find(s=>s.k).k:'_d');
     t.querySelector('.cn').style.cssText='width:34px;color:var(--water);opacity:.85';
+    if(IMGS.mod[m.n]){
+      const cn=t.querySelector('.cn'), th=imgEl('img/m'+m.n+'-cover.webp','','cthumb',132,96);
+      th.onerror=()=>{ th.remove(); cn.style.display=''; };
+      cn.style.display='none'; t.insertBefore(th,cn);
+    }
     t.onclick=()=>{location.hash='#/m/'+m.n;};
     cg.append(t);
   });
@@ -10764,6 +10891,7 @@ function renderApps(){
   sec.append(el('h1',null,'All simulators'));
   sec.querySelector('h1').style.cssText='font-family:var(--font-head);font-weight:600;color:var(--ocean);font-size:clamp(1.7rem,4vw,2.4rem);margin:.3rem 0 6px';
   sec.append(el('p','sec-note','The whole course, grouped the way it is taught.'));
+  if(IMGS.site['site-apps-header']) sec.append(picFig('img/site-apps-header.webp','','wl-apps'));
   CATALOG.forEach(m=>{
     const mh=el('div','mod-head');
     mh.append(el('span','mod-num',m.n), el('span','mod-title',m.t));
@@ -10785,6 +10913,7 @@ function renderModule(n){
   const h=el('h1',null,m.t);
   h.style.cssText='font-family:var(--font-head);font-weight:600;color:var(--ocean);font-size:clamp(1.7rem,4vw,2.4rem);margin:.3rem 0 14px';
   sec.append(h);
+  if(IMGS.mod[n]) sec.append(picFig('img/m'+n+'-cover.webp',IMGS.mod[n].alt,'wl-cover'));
   sec.append(moduleGrid(m));
   const nav=el('div','foot-nav');
   nav.style.cssText='display:flex;gap:16px;margin-top:28px';
@@ -10806,6 +10935,7 @@ function renderAbout(){
   w.append(el('span','eyebrow','About'));
   w.append(el('h1',null,'Water Lab'));
   w.append(el('p','lead','Part of the <b>Curious LK Project</b>, built on one stubborn idea: that you can understand hydraulics by playing with it, not only by reading about it.'));
+  if(IMGS.site['site-about-banner']) w.append(picFig('img/site-about-banner.webp',IMGS.site['site-about-banner'].alt,'wl-about'));
 
   const person=el('div','person');
   person.innerHTML='<div class="person-avatar" aria-hidden="true">TC</div>'
@@ -10823,6 +10953,15 @@ function renderAbout(){
   const dis=el('div','disclaimer-card');
   dis.innerHTML='<h3>A study aid, not a textbook</h3><p>These simulations sometimes simplify things, and a few of them can mislead if you take them completely literally. Please use them as a <b>study aid</b> alongside your lectures, not as your only learning material. If anything here confuses you or looks wrong, ask your lecturer to be sure, and please tell me too, so I can fix it.</p>';
   w.append(dis);
+
+  w.append(el('h2',null,'How a simulator is laid out'));
+  if(IMGS.site['site-how-to-use']) w.append(picFig('img/site-how-to-use.webp',IMGS.site['site-how-to-use'].alt,'wl-howto'));
+  w.append(el('ol','howto',
+     '<li><b>Controls.</b> Sliders, presets and switches. Change one thing at a time.</li>'
+    +'<li><b>The scene.</b> The water itself, redrawn the moment you move anything.</li>'
+    +'<li><b>Charts and tables.</b> The numbers behind the scene, many of them editable.</li>'
+    +'<li><b>Equations, live.</b> The formulas with your current values substituted in.</li>'
+    +'<li><b>Underneath.</b> A picture of how it works, the common trap, and the theory.</li>'));
 
   w.append(el('h2',null,'Help me make it better'));
   w.append(el('p',null,'I am not a fluent coder or builder. I am a student and an explorer who wanted these to exist, so I built them anyway. That means your suggestions genuinely matter. If an explanation is unclear, a number looks wrong, or a topic is missing, tell me. Corrections from students and lecturers are the main reason this keeps improving.'));
@@ -10880,11 +11019,34 @@ function renderSim(key){
   head.append(trow);
   head.append(el('p',null,s.blurb));
   sec.append(head);
+  const pics=IMGS.sim[key]||{};
+  if(pics.field) sec.append(picFig('img/'+key+'-field.webp',pics.field.alt,'wl-banner',pics.field.cap));
   const built=s.build();
   sec.append(built.node);
+  const how=simPictures(key);
+  if(how){
+    /* pictures read best between the simulator and its theory text */
+    const thy=built.node.querySelector(':scope > details.thy');
+    if(thy) built.node.insertBefore(how,thy); else sec.append(how);
+  }
   if(s.theory) sec.append(theoryPanel(s.theory));
   root.append(sec);
   return {node:root, cleanup:built.cleanup};
+}
+
+/* ---------- unknown link: say so, instead of silently showing home ---------- */
+function renderNotFound(h){
+  const root=el('div','wrap');
+  const sec=el('section','nf');
+  sec.append(picFig('img/site-not-found.webp','',null,null,1200,1200));
+  sec.append(el('h1',null,'That page is not here'));
+  sec.append(el('p',null,'Nothing matches <code>#/'+esc(h)+'</code>. The simulator may have moved, or the link may have a typo.'));
+  const entry=el('div','entry');
+  const a=el('button','btn solid','All simulators'); a.onclick=()=>{location.hash='#/apps';};
+  const b=el('button','btn','Home'); b.onclick=()=>{location.hash='#/';};
+  entry.append(a,b); sec.append(entry);
+  root.append(sec);
+  return {node:root, cleanup:()=>{}};
 }
 
 /* ============================================================
@@ -10903,6 +11065,7 @@ function route(){
   else if(h==='apps') view=renderApps();
   else if(h.slice(0,2)==='m/') view=renderModule(h.slice(2));
   else if(h && SIMS[h]) view=renderSim(h);
+  else if(h) view=renderNotFound(h);
   else view=renderHub();
   current=view;
   app.append(view.node);
@@ -10912,7 +11075,7 @@ function route(){
 
 /* highlight whichever nav link matches the view we just rendered */
 function markNav(h){
-  const on = h==='about' ? '#/about' : (h===''?'#/':'#/apps');
+  const on = h==='about' ? '#/about' : h==='' ? '#/' : (h==='apps'||h.slice(0,2)==='m/'||SIMS[h]) ? '#/apps' : '';
   document.querySelectorAll('header.site .nav-link').forEach(a=>{
     a.classList.toggle('on', a.getAttribute('href')===on);
   });

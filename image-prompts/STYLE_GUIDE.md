@@ -82,7 +82,7 @@ The images live in an `img/` folder next to `water-lab.html`, **not** embedded i
 - **Offline:** the README promises the file works offline on its own. If `img/` is missing, the images should simply not appear. An `onerror="this.closest('figure').remove()"` on each image does that.
 - **Social card:** the og:image needs a full absolute URL (`https://thushanch.github.io/water-lab/img/site-social-card.png`), PNG or JPG, 1200x630.
 
-A minimal way to wire them in, if you want it later: let a `T` theory section carry an optional third element, for example `['What this is', 'text…', {img:'img/thiessen-concept.webp', alt:'…', cap:'…', labels:[…]}]`, and let `theoryPanel()` render a `<figure>` with the overlaid labels when it is present. Sims without images keep working unchanged.
+**How they are wired in:** `_build/inject_manifest.py` writes an `IMGS` object into `water-lab.html`, listing only the images that exist in `img/`, with their alt text, captions and labels. The page reads that object, so adding an image is: save it in `img/`, run the script. See [`../img/README.md`](../img/README.md) for where each kind of image appears. The diagram labels are shown as a key under each picture rather than pinned onto it, so they never need per-image coordinates.
 
 ## 8. Editing the prompts
 
