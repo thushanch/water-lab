@@ -9,3 +9,6 @@ Desktop.ini
 .DS_Store
 *.swp
 *.zip
+
+# python cache from the prompt generator
+__pycache__/
