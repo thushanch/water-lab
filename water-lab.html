@@ -115,6 +115,9 @@ footer .meta{margin-left:auto;font-size:.78rem;color:#8a949a;text-align:right}
 .predict button{margin-left:auto;flex:none;background:none;border:none;color:#7f95a5;font-size:1.1rem;cursor:pointer;line-height:1;padding:0 2px}
 .stage{display:grid;grid-template-columns:1.55fr 1fr;gap:22px;align-items:start}
 @media(max-width:860px){.stage{grid-template-columns:1fr}}
+/* grid items default to min-width:auto, so a long equation line or a canvas's own pixel width
+   would stretch the column past the screen on phones; let the column set the width instead */
+.stage>*,.canvas-panel.split>*{min-width:0}
 .canvas-panel{box-shadow:0 10px 34px -14px rgba(10,30,50,.45), inset 0 0 0 1px rgba(20,65,107,.08);background:#0e2233;border:1px solid #0a1a28;border-radius:14px;padding:12px;position:relative}
 .canvas-panel.split{display:grid;grid-template-columns:1.35fr 1fr;gap:10px}
 @media(max-width:560px){.canvas-panel.split{grid-template-columns:1fr}}
@@ -291,6 +294,15 @@ select,input[type=number]{font-family:var(--font-body);font-size:.85rem;padding:
 .nav-link.on{color:var(--water);background:rgba(30,120,176,.11)}
 @media(max-width:640px){.site .tag{display:none}.nav-link{padding:7px 9px;font-size:.8rem}}
 @media(max-width:380px){.nav-link{padding:6px 7px;font-size:.76rem}}
+/* site-wide motion switch: pauses every simulator loop and every CSS animation */
+.motion-tog{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;margin-left:4px;
+  border:1px solid var(--contour);border-radius:9px;background:#fff;color:#4a5860;cursor:pointer;padding:0;flex:none}
+.motion-tog:hover{color:var(--water);border-color:#cfdae4}
+.motion-tog:focus-visible{outline:2px solid var(--water);outline-offset:2px}
+.motion-tog[aria-pressed="true"]{background:rgba(30,120,176,.11);color:var(--water);border-color:#cfdae4}
+.motion-tog svg{width:14px;height:14px}
+@media(max-width:380px){.motion-tog{width:28px;height:28px;margin-left:2px}}
+html.motion-off *,html.motion-off *::before,html.motion-off *::after{animation-play-state:paused!important}
 
 /* ---------- hero art + signature ---------- */
 .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}
@@ -531,6 +543,7 @@ ol.howto b{color:var(--ocean)}
       <a class="nav-link" href="#/">Home</a>
       <a class="nav-link" href="#/apps">Apps</a>
       <a class="nav-link" href="#/about">About</a>
+      <button class="motion-tog" id="motionTog" type="button" aria-pressed="false" title="Pause animations" aria-label="Pause animations"></button>
     </nav>
   </div>
 </header>
@@ -609,6 +622,11 @@ function setupCanvas(canvas, w, h){
   const ctx = canvas.getContext('2d');
   ctx.setTransform(dpr,0,0,dpr,0,0);
   return ctx;
+}
+/* the real pixel widths of a .canvas-panel.split grid's columns; one entry when stacked */
+function splitCols(panel){
+  const t=(typeof getComputedStyle==='function')?getComputedStyle(panel).gridTemplateColumns:'';
+  return String(t||'').split(' ').map(parseFloat).filter(x=>x>0).map(Math.round);
 }
 function fitWidth(panel, ratio, max=680){
   const cw = panel.clientWidth || 640;
@@ -810,22 +828,61 @@ const SC={waterDeep:'#0F2C44',water:'#1E78B0',waterLite:'#9FC4E6',
   ink:'#1C2A33',inkLite:'#5b6870',label:'#9FB4C4'};
 const REDUCED=(typeof matchMedia==='function')&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ---------- motion: one site-wide switch (WCAG 2.2.2), plus an off-screen pause ----------
+   MOTION_OFF is the reader's choice from the header button, remembered across visits.
+   MOTION.root is the current sim's node; while none of its canvases is on screen, loops skip drawing. */
+let MOTION_OFF=false;
+try{ MOTION_OFF=localStorage.getItem('wl-motion')==='off'; }catch(e){}
+const MOTION={root:null, onscreen:true, checked:0};
+const ANIMS=new Set();                       /* started and not stopped */
+function motionHeld(){ return REDUCED||MOTION_OFF; }
+function canvasesOnScreen(){
+  const r=MOTION.root; if(!r||!r.isConnected) return true;
+  const cs=r.getElementsByTagName('canvas'); if(!cs.length) return true;
+  const vh=window.innerHeight||800;
+  for(const c of cs){ const b=c.getBoundingClientRect(); if(b.width>0&&b.bottom>0&&b.top<vh) return true; }
+  return false;
+}
+
 /* ---------- Anim: one rAF per sim, cleanup-safe ---------- */
 function Anim(drawFn){
   let raf=0,last=0,running=false;
   function loop(ts){
     if(!running) return;
-    if(document.hidden){ last=0; raf=requestAnimationFrame(loop); return; }
+    if(ts-MOTION.checked>400||ts<MOTION.checked){ MOTION.checked=ts; MOTION.onscreen=canvasesOnScreen(); }
+    if(document.hidden||!MOTION.onscreen){ last=0; raf=requestAnimationFrame(loop); return; }
     const t=ts/1000, dt=(last?Math.min(0.05,t-last):0.016); last=t;
     drawFn(t,dt);
     raf=requestAnimationFrame(loop);
   }
-  return {
-    start(){ if(REDUCED){ this.frame(); return; } if(running) return; running=true; last=0; raf=requestAnimationFrame(loop); },
-    stop(){ running=false; cancelAnimationFrame(raf); },
+  function run(){ if(running) return; running=true; last=0; raf=requestAnimationFrame(loop); }
+  function halt(){ running=false; cancelAnimationFrame(raf); }
+  const a={
+    start(){ ANIMS.add(a); if(motionHeld()){ a.frame(); return; } run(); },
+    stop(){ ANIMS.delete(a); halt(); },
     frame(){ drawFn((typeof performance!=='undefined'?performance.now():Date.now())/1000,0.016); },
+    _sync(){ if(motionHeld()) halt(); else run(); },
     get running(){ return running; }
   };
+  return a;
+}
+function setMotion(off){
+  MOTION_OFF=!!off;
+  try{ localStorage.setItem('wl-motion',MOTION_OFF?'off':'on'); }catch(e){}
+  if(typeof document!=='undefined') document.documentElement.classList.toggle('motion-off',MOTION_OFF);
+  ANIMS.forEach(a=>a._sync());
+}
+/* while motion is held, every interaction still redraws one frame, so sliders keep answering */
+let pokeQueued=false;
+function pokeAnims(){
+  if(!motionHeld()||pokeQueued||!ANIMS.size) return;
+  pokeQueued=true;
+  requestAnimationFrame(()=>{ pokeQueued=false; ANIMS.forEach(a=>{ if(!a.running) a.frame(); }); });
+}
+if(typeof document!=='undefined'){
+  ['input','change','click','keyup'].forEach(ev=>document.addEventListener(ev,pokeAnims));
+  document.addEventListener('pointermove',e=>{ if(e.buttons) pokeAnims(); });
+  if(MOTION_OFF) document.documentElement.classList.add('motion-off');
 }
 
 /* ---------- Particles: pooled tracers, budget-capped ---------- */
@@ -2003,12 +2060,12 @@ function simFroude(){
       el('div','line',K('c')+' = √(g·y) = √(9.81·'+N(fmt(S.y,2))+') = '+N(fmt(c,2))+' '+U('m/s')),
       el('div','line',K('Fr')+' = V/c = '+N(fmt(S.V,2))+'/'+N(fmt(c,2))+' = '+N(fmt(Fr,2))+'  '+(sup?U('(supercritical)'):U('(subcritical)')))
     );
-    raf=requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  /* shared loop: pauses in hidden tabs, off-screen and under reduced motion or the motion switch */
+  const anim=Anim(t=>frame(t*1000)); anim.start();
   const onResize=()=>{ripples=[];reset();};
   window.addEventListener('resize',onResize);
-  return {node:root, cleanup:()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onResize);}};
+  return {node:root, cleanup:()=>{anim.stop();window.removeEventListener('resize',onResize);}};
 }
 
 /* ============================================================
@@ -2051,7 +2108,9 @@ function simSpecificEnergy(){
     const d1=fitWidth(panel.querySelector('canvas'),0.72,360);
     // both canvases share height
     const pw=panel.clientWidth-24-10;
-    const wF=Math.round(pw*0.56), wC=pw-wF, h=Math.round(wF*0.72);
+    /* size each canvas to its real grid column (side by side, or stacked full width on phones) */
+    const cols=splitCols(panel), stacked=cols.length<2;
+    const wF=stacked?pw+10:cols[0], wC=stacked?pw+10:cols[1], h=Math.round(wF*(stacked?0.62:0.72));
     cf=setupCanvas(cFlume,wF,h); cc=setupCanvas(cCurve,wC,h);
     W1=wF;H1=h;W2=wC;H2=h;
 
@@ -3060,12 +3119,12 @@ function simJump(){
       el('div','line',K('y₂/y₁')+' = ½(√(1+8Fr₁²) − 1) = ½(√(1+8·'+N(fmt(Fr1,1))+'²) − 1) = '+N(fmt(y2/y1,2))),
       el('div','line',K('ΔE')+' = (y₂−y₁)³/(4y₁y₂) = '+N(fmt(dE,2))+' '+U('m — ')+U(cls[2]))
     );
-    raf=requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  /* shared loop: pauses in hidden tabs, off-screen and under reduced motion or the motion switch */
+  const anim=Anim(t=>frame(t*1000)); anim.start();
   const onResize=()=>{parts=[];reset();};
   window.addEventListener('resize',onResize);
-  return {node:root, cleanup:()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onResize);}};
+  return {node:root, cleanup:()=>{anim.stop();window.removeEventListener('resize',onResize);}};
 }
 
 /* ============================================================
@@ -3954,11 +4013,11 @@ function simShields(){
       el('div','line',K('θ')+' = τ₀/[(ρs−ρ)gd] = '+N(fmt(m.tau,1))+'/'+N(fmt((s-1)*RHO*G*m.d,1))+' = '+N(fmt(m.th,3))+U('  vs  ')+K('θ_c(D*)')+' = '+N(fmt(m.thc,3))+U(' at D* = ')+N(fmt(m.Dstar,1))),
       el('div','line',U('this grain would first move at a depth of ')+N(fmt(m.ycr,2))+U(' m on this slope — Soulsby–Whitehouse threshold, τ₀ = ρgyS'))
     );
-    raf=requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  /* shared loop: pauses in hidden tabs, off-screen and under reduced motion or the motion switch */
+  const anim=Anim(t=>frame(t*1000)); anim.start();
   const onResize=()=>reset(); window.addEventListener('resize',onResize);
-  return {node:root, cleanup:()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onResize);}};
+  return {node:root, cleanup:()=>{anim.stop();window.removeEventListener('resize',onResize);}};
 }
 
 /* ============================================================
@@ -4216,11 +4275,11 @@ function simJet(){
       el('div','line',K('Fx')+' = ρQV(1−cosθ) = 1000·'+N(fmt(Q,4))+'·'+N(fmt(S.V,1))+'·(1−cos'+N(S.theta)+'°) = '+N(fmt(Fx,0))+' '+U('N')),
       el('div','line',U('at θ=90° the factor (1−cosθ)=1; at θ=180° it is 2 — exactly double.'))
     );
-    raf=requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  /* shared loop: pauses in hidden tabs, off-screen and under reduced motion or the motion switch */
+  const anim=Anim(t=>frame(t*1000)); anim.start();
   const onResize=()=>reset(); window.addEventListener('resize',onResize);
-  return {node:root, cleanup:()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onResize);}};
+  return {node:root, cleanup:()=>{anim.stop();window.removeEventListener('resize',onResize);}};
 }
 
 /* ============================================================
@@ -4777,11 +4836,11 @@ function simScour(){
       el('div','line',K('y_s')+' = 2.0·y₁·K₁K₂K₃·(a/y₁)^{0.65}·Fr^{0.43} = 2×'+N(fmt(St.y1,1))+'×'+N(fmt(St.K1*m.K2*St.K3,2))+'×'+N(fmt(Math.pow(St.a/St.y1,0.65),3))+'×'+N(fmt(Math.pow(m.Fr,0.43),3))+' = '+N(fmt(m.ys,2))+U(' m')),
       el('div','line',U('skew factor K₂ = (cosθ + (L/a)sinθ)^{0.65} = ')+N(fmt(m.K2,2))+U(St.ang>0?' — the flow sees a wider pier than the builder did.':' — aligned: the river sees only the true width.'))
     );
-    raf=requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  /* shared loop: pauses in hidden tabs, off-screen and under reduced motion or the motion switch */
+  const anim=Anim(t=>frame(t*1000)); anim.start();
   const onResize=()=>reset(); window.addEventListener('resize',onResize);
-  return {node:root, cleanup:()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onResize);}};
+  return {node:root, cleanup:()=>{anim.stop();window.removeEventListener('resize',onResize);}};
 }
 
 /* ============================================================
@@ -4827,7 +4886,9 @@ function simCompound(){
   let cs,cr,W1,H1,W2,H2; const geo={base:0,scale:1};
   function draw(){
     const pw=(panel.clientWidth||760)-24-10;
-    const wS=Math.round(pw*0.52), wR=pw-wS, hgt=Math.round(wS*0.6);
+    /* size each canvas to its real grid column (side by side, or stacked full width on phones) */
+    const cols=splitCols(panel), stacked=cols.length<2;
+    const wS=stacked?pw+10:cols[0], wR=stacked?pw+10:cols[1], hgt=Math.round(wS*0.6);
     cs=setupCanvas(cSec,wS,hgt); cr=setupCanvas(cRate,wR,hgt);
     W1=wS;H1=hgt;W2=wR;H2=hgt;
     const y=clamp(S.y,0.2,6);
@@ -6247,11 +6308,11 @@ function simSiphon(){
         ? '<span style="color:#D2452F">Crest pressure falls below −'+HatmNet+' m: the water column tears and the siphon dies.</span>'
         : '<span style="color:#3E9A6E">'+fmt(-HatmNet-m.pc,2)+' m of margin left before vapour — the drop z_o drives flow, the crest only limits it.</span>')
     );
-    raf=requestAnimationFrame(frame);
   }
-  raf=requestAnimationFrame(frame);
+  /* shared loop: pauses in hidden tabs, off-screen and under reduced motion or the motion switch */
+  const anim=Anim(t=>frame(t*1000)); anim.start();
   const onResize=()=>reset(); window.addEventListener('resize',onResize);
-  return {node:root, cleanup:()=>{cancelAnimationFrame(raf);window.removeEventListener('resize',onResize);}};
+  return {node:root, cleanup:()=>{anim.stop();window.removeEventListener('resize',onResize);}};
 }
 
 /* ============================================================
@@ -11023,6 +11084,7 @@ function renderSim(key){
   if(pics.field) sec.append(picFig('img/'+key+'-field.webp',pics.field.alt,'wl-banner',pics.field.cap));
   const built=s.build();
   sec.append(built.node);
+  MOTION.root=built.node; MOTION.onscreen=true;
   const how=simPictures(key);
   if(how){
     /* pictures read best between the simulator and its theory text */
@@ -11057,6 +11119,9 @@ const ALIAS={sandbox:'catchment', pond:'catchment', resyield:'catchment'};
 let current=null;
 function route(){
   if(current&&current.cleanup) current.cleanup();
+  /* safety net: no loop survives leaving a sim, even one whose cleanup forgot it */
+  ANIMS.forEach(a=>a.stop());
+  MOTION.root=null; MOTION.onscreen=true;
   app.innerHTML='';
   let h=location.hash.replace(/^#\/?/,'');
   if(ALIAS[h]){ location.hash='#/'+ALIAS[h]; return; }
@@ -11080,6 +11145,22 @@ function markNav(h){
     a.classList.toggle('on', a.getAttribute('href')===on);
   });
 }
+/* header motion switch */
+(function(){
+  const b=document.getElementById('motionTog'); if(!b) return;
+  if(REDUCED){ b.remove(); return; }      /* the system setting already holds motion */
+  const ICON_PAUSE='<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="2.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="8.4" y="2.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg>';
+  const ICON_PLAY='<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2.6v8.8a.6.6 0 0 0 .9.5l7-4.4a.6.6 0 0 0 0-1L4.9 2.1a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg>';
+  function paint(){
+    b.innerHTML=MOTION_OFF?ICON_PLAY:ICON_PAUSE;
+    const label=MOTION_OFF?'Play animations':'Pause animations';
+    b.title=label; b.setAttribute('aria-label',label);
+    b.setAttribute('aria-pressed',MOTION_OFF?'true':'false');
+  }
+  b.onclick=()=>{ setMotion(!MOTION_OFF); paint(); };
+  paint();
+})();
+
 window.addEventListener('hashchange',route);
 route();
 </script>

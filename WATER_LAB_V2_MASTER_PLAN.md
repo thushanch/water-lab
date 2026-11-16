@@ -501,7 +501,14 @@ Reskin any sim not touched by name (`venturi`, `jet`, `siphon`, `moody`, `pump`,
 - **Data, not hand edits.** `image-prompts/_build/inject_manifest.py` writes `const IMGS={...}` between the `IMGS:BEGIN` and `IMGS:END` markers, listing only images that exist in `img/`. Never edit that block by hand; add or remove a file and rerun the script.
 - **Single-file promise kept.** Images are not embedded (the HTML grew about 40 kB, to about 630 kB). Every figure removes itself on load error, so `water-lab.html` copied alone works offline with no broken boxes. Verified in Chromium: all 41 sims and 6 shell routes, 0 console errors, 0 broken images, with and without `img/`.
 - **Held back:** `egl-concept` and `profiles-concept` are in `img/_review/` because their physics is wrong; prompts corrected for regeneration.
-- **Found, not fixed:** on a 390 px phone the simulator canvases overflow sideways (manning scrolls to 684 px, hammer to 850 px). This predates the pictures; QA item 5 is failing for those sims.
+- **Found, not fixed:** on a 390 px phone the simulator canvases overflow sideways (manning scrolls to 684 px, hammer to 850 px). This predates the pictures; QA item 5 is failing for those sims. *(Fixed 2026-11-16, see below.)*
+
+### Off-plan changes (2026-11-16): phone layout and motion foundations
+- **Phone overflow fixed (QA item 5).** 34 of 41 sims scrolled sideways on a 390 px phone (calib reached 1,040 px). Cause: `.stage` grid items keep `min-width:auto`, so long no-wrap equation lines and canvas pixel widths stretched the column. Fix: `.stage>*,.canvas-panel.split>*{min-width:0}`. The same bug was squeezing the controls column on desktop in 17 sims (calib controls were 103 px wide); every sim now gets the designed 1.55:1 split.
+- **Split panels sized from the real grid.** `compound` and `specific-energy` assumed side-by-side canvases, so on phones each was drawn at half width and stretched blurry; on desktop they were about 10 % off. New `splitCols(panel)` reads the grid's actual column widths; canvases are now 1:1 at both sizes.
+- **`Anim` extended, signature unchanged.** A registry of started loops (`ANIMS`), a site-wide switch (`setMotion`, header button, `localStorage` key `wl-motion`, `html.motion-off` pauses CSS animations too), an off-screen check (`MOTION.root`, set by `renderSim`), and `pokeAnims()`, which redraws one frame on any input while motion is held so sliders still answer. `route()` now stops any loop a sim forgot.
+- **F1 done:** froude, jump, shields, jet, siphon and scour moved from hand-rolled rAF loops onto `Anim`. No sim now calls `requestAnimationFrame` in a loop of its own.
+- Verified in Chromium: 47 routes, 0 errors; every slider, select and checkbox of all 41 sims driven to extremes at 1280 and 390 px with 0 errors and no NaN; no horizontal overflow at 390 px; motion switch, reload memory, off-screen pause and OS reduced motion each tested.
 
 ### The 2026-08-13/14 request, closed out
 Everything asked for on those two days is now built and verified, except as noted below.

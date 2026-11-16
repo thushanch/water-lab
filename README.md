@@ -84,6 +84,11 @@ the back link works, and hash deep links such as `#/thiessen` resolve.
 - No em dashes in user facing copy. Plain, confident microcopy, sentence case.
 - Particles are pooled and capped at 160 per sim.
 - Animations stop when the user leaves the sim.
+- Animate only through the shared `Anim()` loop, never a `requestAnimationFrame`
+  loop of your own. That is what makes the header pause button, reduced motion
+  and the off-screen pause work everywhere.
+- Lay out sims with the shared `.stage` grid. On a 390 px phone nothing may
+  scroll sideways.
 - Never rename an existing sim key. If one is superseded, keep an alias in
   `route()`.
 - Keep the whole file under about 1.3 MB.
