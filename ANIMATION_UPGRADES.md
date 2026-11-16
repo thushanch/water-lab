@@ -4,6 +4,15 @@ A review of how the 41 simulators move today, and what to add. The proposals kee
 
 This is a proposal, not a work item. Where an idea belongs inside an item that is still open in the master plan, that is noted so it can be folded in rather than done twice.
 
+## Status
+
+| Item | State |
+|---|---|
+| F1 · six loose loops on `Anim` | **Done** 2026-11-16. froude, jump, shields, jet, siphon and scour now run on the shared loop. |
+| F2 · global pause switch | **Done** 2026-11-16. Pause button in the header; pauses every sim loop and every CSS animation; remembered across visits; hidden when the system already asks for reduced motion. While paused, every input still redraws one frame. |
+| F3 · off-screen pause | **Done** 2026-11-16. Loops skip drawing while none of the sim's canvases is on screen, checked every 0.4 s, and resume on return. |
+| Everything else | Proposed, not started. |
+
 ---
 
 ## 1. Where the app stands
@@ -13,7 +22,7 @@ I read every `sim*()` function and sorted them by how they animate.
 | How it moves today | Sims | What that means |
 |---|---|---|
 | **Shared `Anim` loop** (17) | catchment, designstorm, egl, hammer, impeller, npsh, pipeflow, rational, reliability, scs, scsuh, serpar, stepmethod, thiessen, thrust, traplife, weir | Good. Pauses in a hidden tab and draws one frame per input under reduced motion. |
-| **Own `requestAnimationFrame` loop** (6) | froude, jump, shields, jet, siphon, scour | Stops on leave, but **ignores reduced motion** and keeps drawing in a hidden tab. |
+| **Own `requestAnimationFrame` loop** (6) | froude, jump, shields, jet, siphon, scour | Stops on leave, but **ignores reduced motion** and keeps drawing in a hidden tab. *Fixed by F1: all six are now on `Anim`.* |
 | **`setInterval` playback** (4) | uh, openchannel, montecarlo, traplife | Plays in visible steps (uh ticks once every 0.9 s), so motion jumps instead of easing, and there is no scrubbing. |
 | **Static, redrawn only on input** (17) | manning, compound, venturi, pump, pumpbuild, idf, infil, moody, risk, sluice, specific-energy, calib, profiles, freqfit, freqlab, plus the scenes of uh and openchannel outside playback | **No living water.** In a hydraulics app, still water in a canal reads as a diagram, not a simulation. |
 
